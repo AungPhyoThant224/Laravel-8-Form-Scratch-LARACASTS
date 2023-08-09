@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="/app.css" />
+    <link rel="stylesheet" href="/app.css"/>
 </head>
 <body>
-    <?= $post ?>
+<article>
+    <h1>
+        <a href="/posts/<?= $post->slug ?>">
+            <?= $post->title; ?>
+        </a>
+    </h1>
 
-    <a href="/"> < go back</a>
+    <div><?= $post->body ?></div>
+</article>
+
+<a href="/"> < Go Back</a>
 </body>
 </html>
