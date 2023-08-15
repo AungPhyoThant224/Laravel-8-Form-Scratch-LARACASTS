@@ -39,6 +39,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function setNameAttribute($name){
+        $this->attributes['name'] = ucwords($name);
+    }
+
     public function posts(){
         return $this->hasMany(Post::class);
     }
