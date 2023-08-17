@@ -6,6 +6,31 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('newsletter', function (){
+
+    request()->validate(['email'=>'required|email']);
+
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => 'us21'
+    ]);
+
+    try{
+        $response = $mailchimp->lists->addListMember('e75a49b1d9', [
+            'email_address' => request('email'),
+            'status' => 'subscribed'
+        ]);
+    }
+    catch (Exception $e){
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'email' => 'This email address cannot  be added to our news letter list'
+        ]);
+    }
+
+    return redirect('/')->with('success', 'You are now signed up for our newsletter.');
+});
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 
